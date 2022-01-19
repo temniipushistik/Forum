@@ -1,0 +1,29 @@
+<html>
+
+<body>
+    <div>
+    <form action="/logout" method="post">
+
+                <input type="submit" value="Sign Out"/>
+               <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    </form>
+     </div>
+    <div>
+        <form method="post">
+            <input type="text" name="text" placeholder="Add your topic" />
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div>List of topics:</div>
+
+    </form>
+    {{#messages}}
+    <div>
+        <b>{{id}}</b>
+        <span>{{text}}</span>
+
+    </div>
+    {{/messages}}
+</body>
+</html>
