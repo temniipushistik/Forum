@@ -18,13 +18,19 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String text;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER )//указываем БД, что к куче собщеий бможнт бытьодин пользователь
+    @JoinColumn(name ="user_id")//указываем БД как назвать поле автор
     private EntityUser author;
 
-    public Message(String text) {
+    public Message(String text, EntityUser user ) {
+        this.author=user;
         this.text = text;
     }
 
+public String getAuthorName(){
+        return author!=null?author.getUsername():"<none";
+}
 
 }
 

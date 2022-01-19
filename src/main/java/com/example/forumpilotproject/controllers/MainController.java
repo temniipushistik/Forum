@@ -1,8 +1,10 @@
 package com.example.forumpilotproject.controllers;
 
+import com.example.forumpilotproject.entities.EntityUser;
 import com.example.forumpilotproject.entities.Message;
 import com.example.forumpilotproject.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,9 +37,10 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String text, Map<String, Object> model) {
+    public String add(@AuthenticationPrincipal EntityUser user,
+                      @RequestParam String text, Map<String, Object> model) {
         //сохраняем полученные сообщения
-        Message message = new Message(text);
+        Message message = new Message(text,user);
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
 
