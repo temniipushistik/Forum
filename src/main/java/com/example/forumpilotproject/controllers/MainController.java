@@ -6,6 +6,7 @@ import com.example.forumpilotproject.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,9 +31,9 @@ public class MainController {
     }
     //получаем все сообщения и возвращаем их в мейн
     @GetMapping("/main")
-    public String main(Map<String, Object> model) {
+    public String main(Model model) {
         Iterable<Message> messages = messageRepository.findAll();
-        model.put("messages", messages);
+        model.addAttribute("messages", messages);
         return "main";
     }
 

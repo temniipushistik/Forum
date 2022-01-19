@@ -24,7 +24,7 @@ public class EntityUser implements UserDetails {
     private Long id;
     private String username;
     private String password;
-    private boolean active=true;
+    private boolean active;
    // private String userEmail;
     //private String userPhoneNumber;
     @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)//сам создает таблицу с енамом,

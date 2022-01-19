@@ -24,12 +24,12 @@ public class Message {
     private EntityUser author;
 
     public Message(String text, EntityUser user ) {
-        this.author=user;
         this.text = text;
+        this.author=user;
     }
 
 public String getAuthorName(){
-        return author!=null?author.getUsername():"<none";
+        return author!=null?author.getUsername():"<none>";
 }
 
 }

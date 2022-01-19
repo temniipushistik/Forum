@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    //DataSource генерируется спрингом, нужен, чтобы менеджер мог входить в БД и искать там роли пользователей
+
     @Autowired
     private UserService userService;
 
