@@ -22,9 +22,7 @@
             </li>
             </#if>
         </ul>
-        <div
-            class ="navbar.text">${name}</div>
-        <dic <@l.logout /></div>
-
+         <div class="navbar.text mr-3">${name}</div>
+         <@l.logout />
     </div>
 </nav>
