@@ -1,20 +1,18 @@
 package com.example.forumpilotproject.controllers;
 
 import com.example.forumpilotproject.entities.EntityUser;
-import com.example.forumpilotproject.entities.Role;
-import com.example.forumpilotproject.repositories.UserRepository;
+import com.example.forumpilotproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
 public class RegistrationController  {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping("/registration")
     public String registration() {
@@ -23,17 +21,14 @@ public class RegistrationController  {
     }
 
     @PostMapping("/registration")
-    public String addUser(EntityUser user, Map<String, Object> model) {
+    public String addUser(EntityUser user,Map<String,Object> model) {
+//если сервис говорит, что в Бд есть уже этот пользователь - т.е. метод эдюзер возвращает фолс
+    if(!userService.addUser(user)){
+        model.put("message","User exists!");
+        return "registration";
+    }
 
-        EntityUser userFromDB = userRepository.findByUsername(user.getUsername());
-        //если имя есть мы об этом сообщаем и возвращаем тест на эту же страницу
-        if (userFromDB != null) {
-            model.put("message", "User exists");
-            return "registration";
-        }
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepository.save(user);
+
 //return "registration";
         return "redirect:/login";
 

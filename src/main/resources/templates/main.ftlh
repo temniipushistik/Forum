@@ -28,7 +28,7 @@
 
                 </div>
                 <div class="card-footer text-muted">
-                  Post has been published by  ${message.authorName}
+                  Post has been published by ${message.authorName}
                 </div>
             </div>
         <#else>
