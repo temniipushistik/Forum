@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER )//указываем БД, что к куче собщеий бможнт бытьодин пользователь
