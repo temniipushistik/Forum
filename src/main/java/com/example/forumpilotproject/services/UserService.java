@@ -22,14 +22,23 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
     }
-    public boolean addUser(EntityUser user){
+
+    public boolean addUser(EntityUser user) {
         EntityUser userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
-           return false;
+            return false;
         }
         user.setActive(true);
+        //если в БД нет ничего - то первый пользователь будет админом
+        if (userRepository.findAll().isEmpty()) {
+            user.setRoles(Collections.singleton(Role.ADMIN));
+            userRepository.save(user);
+            return true;
+        }
+
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
         return true;
+
     }
 }
