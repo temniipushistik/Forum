@@ -24,18 +24,22 @@
 
             <div class="m-3">
 
-                <span> ${description}</span>
+                <div><span> ${description}</span></div>
 
-
-                <div><a href="/textOfTopic/${idOfTopic}/edit">Edit</a></div>
-                <div><a href="/textOfTopic/${idOfTopic}/delete">Delete</a></div>
-
+                <div class="btn-group">
+                    <a href="/textOfTopic/${idOfTopic}/edit" class="btn btn-primary"> Edit </a>
+                    <form method="post" action="/textOfTopic/${idOfTopic}/remove">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
 
 
             </div>
 
         </div>
     </#if>
+
 </@c.page>
 
 

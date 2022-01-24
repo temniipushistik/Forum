@@ -55,7 +55,7 @@ public class MessageController {
 
     @PostMapping("/edit")
     public String postArticleEdit(@PathVariable(value = "idOfTopic") long idOfTopic,
-                             @RequestParam String textOfArticle, @RequestParam String topic, Model model) {
+                                  @RequestParam String textOfArticle, @RequestParam String topic, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         message.setText(topic);
         message.setDescription(textOfArticle);
@@ -64,13 +64,13 @@ public class MessageController {
         return "redirect:/textOfTopic/{idOfTopic}";
     }
 
-    @PostMapping("/delete")
-    public String ArticleDelete(@PathVariable(value = "idOfTopic") long idOfTopic,
-                                   Model model) {
-        Message message = messageRepository.findMessageById(idOfTopic);
-        messageRepository.delete(message);
 
-        return "main";
+    @PostMapping("/remove")
+    public String ArticleDelete(@PathVariable(value = "idOfTopic") long idOfTopic,
+                                Model model) {
+        messageRepository.deleteById(idOfTopic);
+
+        return "redirect:/main";
     }
 
 }
