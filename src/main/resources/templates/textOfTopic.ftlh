@@ -1,25 +1,32 @@
 <#import "parts/common.ftlh" as c>
 
 <@c.page>
-  <h5>${topic}</h5>
-  <div class="form-group">
+    <h5>${topic}</h5>
 
-    <input type="text" class="form-control" name="text" placeholder="Share your idea here"/>
-  </div>
-  <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-  <div class="form-group">
-    <button type="submit" class="btn btn-primary">Add</button>
-  </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
 
-  <div class="card my-3" style="width: 60rem;">
+            <label>
+                <input type="text" class="form-control" name="textOfArticle" placeholder="Put your description here"/>
+            </label>
+        </div>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add description</button>
+        </div>
+    </form>
 
-    <div class="m-3">
-      <span> Text</span>
+    <div class="card my-3" style="width: 60rem;">
 
 
+        <div class="m-3">
+            <span> ${description}</span>
+
+        </div>
     </div>
-    <div class="card-footer text-muted">
-      Post has been published by author
-    </div>
-  </div>
 </@c.page>
+
+
+
+
+

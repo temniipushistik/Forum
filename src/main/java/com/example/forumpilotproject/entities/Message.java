@@ -20,20 +20,28 @@ public class Message {
     private String text;
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER )//указываем БД, что к куче собщеий бможнт бытьодин пользователь
-    @JoinColumn(name ="user_id")//указываем БД как назвать поле автор
+    @ManyToOne(fetch = FetchType.EAGER)//указываем БД, что к куче собщеий бможнт бытьодин пользователь
+    @JoinColumn(name = "user_id")//указываем БД как назвать поле автор
     private EntityUser author;
 
     public Message(String text, EntityUser user
     ) {
         this.text = text;
-        this.author=user;
+        this.author = user;
 
     }
 
-public String getAuthorName(){
-        return author!=null?author.getUsername():"<none>";
-}
+    public Message(String text, String description, EntityUser user
+    ) {
+        this.text = text;
+        this.author = user;
+        this.description = description;
+
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
+    }
 
 }
 

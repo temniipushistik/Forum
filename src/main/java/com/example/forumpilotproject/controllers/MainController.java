@@ -43,9 +43,9 @@ public class MainController {
 
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal EntityUser user,
-                      @RequestParam String text, Map<String, Object> model) {
+                      @RequestParam String title, Map<String, Object> model) {
         //сохраняем полученные сообщения
-        Message message = new Message(text,user);
+        Message message = new Message(title,user);
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
 
@@ -54,15 +54,6 @@ public class MainController {
         //отдали пользователю
         return "main";
     }
-    @GetMapping("/textOfTopic/{idOfTopic}")
-    public String textIdOfTopic(@PathVariable(value = "idOfTopic") long idOfTopic,Model model){
-     Optional<Message> messages = messageRepository.findById(idOfTopic);
-     model.addAttribute("topic",messages.get().getText());
-     return "textOfTopic";
-    }
-
-  //  @PostMapping("/textOfTopic/{idOfTopic}")
-  //  public String t
 
 
 

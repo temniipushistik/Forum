@@ -11,7 +11,7 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
 
-                    <input type="text" class="form-control" name="text" placeholder="Put your topic"/>
+                    <input type="text" class="form-control" name="title" placeholder="Put your topic"/>
                 </div>
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <div class="form-group">

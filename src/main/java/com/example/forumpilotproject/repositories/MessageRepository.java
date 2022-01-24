@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 
 public interface MessageRepository extends JpaRepository<Message,Long> {
    // Message findByText(String text);
+    Message findMessageById(Long id);
     //поиск по полю или идентификатору
 }
