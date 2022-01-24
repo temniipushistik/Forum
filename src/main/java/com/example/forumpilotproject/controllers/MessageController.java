@@ -22,6 +22,9 @@ public class MessageController {
     public String textIdOfTopic(@PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         model.addAttribute("topic", message.getText());
+        if (message.getDescription() != null) {
+            model.addAttribute("description", message.getDescription());
+        }
 
         return "textOfTopic";
     }
@@ -31,11 +34,43 @@ public class MessageController {
                              @RequestParam String textOfArticle, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         message.setDescription(textOfArticle);
+        messageRepository.save(message);
         model.addAttribute("topic", message.getText());
         model.addAttribute("description", message.getDescription());
 
 
         return "textOfTopic";
+    }
+
+    @GetMapping("/edit")
+    public String getArticleEdit(@PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
+        Message message = messageRepository.findMessageById(idOfTopic);
+        model.addAttribute("topic", message.getText());
+        if (message.getDescription() != null) {
+            model.addAttribute("description", message.getDescription());
+        }
+
+        return "textEdit";
+    }
+
+    @PostMapping("/edit")
+    public String postArticleEdit(@PathVariable(value = "idOfTopic") long idOfTopic,
+                             @RequestParam String textOfArticle, @RequestParam String topic, Model model) {
+        Message message = messageRepository.findMessageById(idOfTopic);
+        message.setText(topic);
+        message.setDescription(textOfArticle);
+        messageRepository.save(message);
+
+        return "redirect:/textOfTopic/{idOfTopic}";
+    }
+
+    @PostMapping("/delete")
+    public String ArticleDelete(@PathVariable(value = "idOfTopic") long idOfTopic,
+                                   Model model) {
+        Message message = messageRepository.findMessageById(idOfTopic);
+        messageRepository.delete(message);
+
+        return "main";
     }
 
 }
