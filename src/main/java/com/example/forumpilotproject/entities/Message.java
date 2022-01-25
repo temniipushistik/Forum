@@ -31,6 +31,11 @@ public class Message {
 
     }
 
+    public Message(EntityUser user) {
+        this.author = user;
+
+    }
+
     public Message(String text, String description, EntityUser user
     ) {
         this.text = text;

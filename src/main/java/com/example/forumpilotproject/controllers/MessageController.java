@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -19,31 +20,40 @@ public class MessageController {
     MessageRepository messageRepository;
 
     @GetMapping
-    public String textIdOfTopic(@PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
+    public String textIdOfTopic(
+            @AuthenticationPrincipal EntityUser user,
+            @PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         model.addAttribute("topic", message.getText());
+        model.addAttribute("authorId", message.getAuthor().getId());
+        model.addAttribute("currentUserId", user.getId());
         if (message.getDescription() != null) {
             model.addAttribute("description", message.getDescription());
+
         }
 
         return "textOfTopic";
     }
 
     @PostMapping
-    public String addArticle(@PathVariable(value = "idOfTopic") long idOfTopic,
+    public String addArticle(@AuthenticationPrincipal EntityUser user,
+                             @PathVariable(value = "idOfTopic") long idOfTopic,
                              @RequestParam String textOfArticle, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         message.setDescription(textOfArticle);
         messageRepository.save(message);
         model.addAttribute("topic", message.getText());
+        model.addAttribute("authorId", message.getAuthorName());
         model.addAttribute("description", message.getDescription());
+        model.addAttribute("userId", user.getId());
 
 
         return "textOfTopic";
     }
 
     @GetMapping("/edit")
-    public String getArticleEdit(@PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
+    public String getArticleEdit(
+            @PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         model.addAttribute("topic", message.getText());
         if (message.getDescription() != null) {
@@ -54,21 +64,28 @@ public class MessageController {
     }
 
     @PostMapping("/edit")
-    public String postArticleEdit(@PathVariable(value = "idOfTopic") long idOfTopic,
-                                  @RequestParam String textOfArticle, @RequestParam String topic, Model model) {
+    public String postArticleEdit(
+            @AuthenticationPrincipal EntityUser user,
+            @PathVariable(value = "idOfTopic") long idOfTopic,
+            @RequestParam String textOfArticle, @RequestParam String topic, Model model) {
+
         Message message = messageRepository.findMessageById(idOfTopic);
         message.setText(topic);
         message.setDescription(textOfArticle);
         messageRepository.save(message);
+        model.addAttribute("authorId", message.getAuthor().getId());//автор сабжа
+        model.addAttribute("userId", user.getId());//текущий юзер
 
         return "redirect:/textOfTopic/{idOfTopic}";
     }
 
 
     @PostMapping("/remove")
-    public String ArticleDelete(@PathVariable(value = "idOfTopic") long idOfTopic,
+    public String ArticleDelete(@AuthenticationPrincipal EntityUser user, @PathVariable(value = "idOfTopic") long idOfTopic,
                                 Model model) {
+        Message message = new Message(user);
         messageRepository.deleteById(idOfTopic);
+        model.addAttribute("authorId", message.getAuthor().getId());
 
         return "redirect:/main";
     }
