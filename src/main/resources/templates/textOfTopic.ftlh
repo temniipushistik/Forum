@@ -3,7 +3,7 @@
 <#import "parts/login.ftlh" as l>
 <@c.page>
     <h5>${topic}</h5>
-    <#if !description??>
+    <#if !description??&&((authorId==currentUserId)||(user.isAdmin()))>
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
 
@@ -31,20 +31,27 @@
                 <div><span> ${currentUserId}</span></div>
 
                 <div class="btn-group">
-                    <#if authorId==currentUserId>
 
-                    <a href="/textOfTopic/${idOfTopic}/edit" class="btn btn-primary"> Edit </a>
-                    <form method="post" action="/textOfTopic/${idOfTopic}/remove">
-                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                        <button class="btn btn-danger" type="submit">Delete</button>
+                    <#if (authorId==currentUserId)||user.isAdmin()>
 
-                    </form>
+                        <a href="/textOfTopic/${idOfTopic}/edit" class="btn btn-primary"> Edit </a>
+                        <form method="post" action="/textOfTopic/${idOfTopic}/remove">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                            <button class="btn btn-danger" type="submit">Delete</button>
 
+                        </form>
+                    </#if>
                 </div>
-                </#if>
-
 
             </div>
+            <div class="card-footer text-muted">
+                Post has been published by ${author}
+            </div>
+
+        </div>
+
+
+        </div>
 
         </div>
     </#if>

@@ -9,10 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.Map;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/textOfTopic/{idOfTopic}")
 public class MessageController {
@@ -26,7 +22,10 @@ public class MessageController {
         Message message = messageRepository.findMessageById(idOfTopic);
         model.addAttribute("topic", message.getText());
         model.addAttribute("authorId", message.getAuthor().getId());
+        model.addAttribute("author", message.getAuthorName());
         model.addAttribute("currentUserId", user.getId());
+       // model.addAttribute("isAdmin",user.isAdmin());
+        model.addAttribute("user",user);
         if (message.getDescription() != null) {
             model.addAttribute("description", message.getDescription());
 
@@ -43,9 +42,13 @@ public class MessageController {
         message.setDescription(textOfArticle);
         messageRepository.save(message);
         model.addAttribute("topic", message.getText());
-        model.addAttribute("authorId", message.getAuthorName());
+        model.addAttribute("authorId", message.getAuthor().getId());
+        //model.addAttribute("isAdmin",user.isAdmin());
+        model.addAttribute("user",user);
         model.addAttribute("description", message.getDescription());
-        model.addAttribute("userId", user.getId());
+        model.addAttribute("currentUserId", user.getId());
+        model.addAttribute("author", message.getAuthorName());
+
 
 
         return "textOfTopic";
@@ -56,6 +59,7 @@ public class MessageController {
             @PathVariable(value = "idOfTopic") long idOfTopic, Model model) {
         Message message = messageRepository.findMessageById(idOfTopic);
         model.addAttribute("topic", message.getText());
+
         if (message.getDescription() != null) {
             model.addAttribute("description", message.getDescription());
         }

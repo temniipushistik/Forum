@@ -37,7 +37,7 @@ public class UserController {
             @RequestParam String username,
             @RequestParam Map<String,String> form,
             @RequestParam("userId") EntityUser user){//request param - запрос с сервера?
-        user.setUsername(username);//что делает строка?
+        user.setUsername(username);
     //получаем в виде коллекции стрингов роли
     Set<String> roles = Arrays.stream(Role.values())
             .map(Role::name).
