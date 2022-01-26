@@ -28,7 +28,7 @@
                 <span> ${comment.getTextOfComment()}</span>
             </div>
             <div class="card-footer text-muted">
-                Comment has been published by ${comment.authorOfComment.username}
+                Commented by ${comment.authorOfComment.username}
             </div>
         </div>
 

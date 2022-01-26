@@ -22,9 +22,9 @@ public class EntityComments {
     @JoinColumn(name = "user_id")
     private EntityUser authorOfComment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id")
-    private Message commentedPost;
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+   @JoinColumn(name = "post_id")
+     private Message commentedPost;
 
     public EntityComments(String textOfComment, EntityUser user, Message message) {
         this.textOfComment = textOfComment;

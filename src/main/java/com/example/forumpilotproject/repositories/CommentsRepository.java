@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CommentsRepository extends JpaRepository<EntityComments,Long> {
     Iterable<EntityComments>  findEntityCommentsByCommentedPost(Message message);
+
 }

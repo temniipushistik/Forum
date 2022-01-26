@@ -1,4 +1,3 @@
-
 <#import "parts/common.ftlh" as c>
 
 <@c.page>
@@ -70,6 +69,7 @@
                 </form>
             </div>
         </div>
+         <#if comments??>
 
         <#list comments as comment>
             <div class="card my-3" style="width: 60rem;">
@@ -79,14 +79,14 @@
                     <span> ${comment.getTextOfComment()}</span>
                 </div>
                 <div class="card-footer text-muted">
-                    Comment has been published by ${comment.authorOfComment.username}
+                    Commented by ${comment.authorOfComment.username}
                 </div>
             </div>
 
 
         </#list>
 
-
+</#if>
 
         </div>
 
