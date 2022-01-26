@@ -1,7 +1,9 @@
 package com.example.forumpilotproject.controllers;
 
+import com.example.forumpilotproject.entities.EntityComments;
 import com.example.forumpilotproject.entities.EntityUser;
 import com.example.forumpilotproject.entities.Message;
+import com.example.forumpilotproject.repositories.CommentsRepository;
 import com.example.forumpilotproject.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class MessageController {
     @Autowired
     MessageRepository messageRepository;
+    @Autowired
+    CommentsRepository commentsRepository;
 
     @GetMapping
     public String textIdOfTopic(
@@ -26,6 +30,9 @@ public class MessageController {
         model.addAttribute("currentUserId", user.getId());
        // model.addAttribute("isAdmin",user.isAdmin());
         model.addAttribute("user",user);
+        Message messageById = messageRepository.findMessageById(idOfTopic);
+        Iterable<EntityComments> comments = commentsRepository.findEntityCommentsByCommentedPost(messageById);
+        model.addAttribute("comments", comments);
         if (message.getDescription() != null) {
             model.addAttribute("description", message.getDescription());
 

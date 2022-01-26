@@ -1,6 +1,5 @@
-<#import "parts/security.ftlh" as s>
+
 <#import "parts/common.ftlh" as c>
-<#import "parts/login.ftlh" as l>
 <@c.page>
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">
@@ -8,7 +7,7 @@
     </a>
     <div class="collapse" id="collapseExample">
         <div class="form-group mt-3">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" action="/textOfTopic/${idOfTopic}/comments">
                 <div class="form-group">
 
                     <input type="text" class="form-control" name="textOfComment" placeholder="Put your comment"/>
@@ -29,12 +28,11 @@
                 <span> ${comment.getTextOfComment()}</span>
             </div>
             <div class="card-footer text-muted">
-                Post has been published by ${comment.authorOfComment.username}
+                Comment has been published by ${comment.authorOfComment.username}
             </div>
         </div>
 
 
     </#list>
-
 
 </@c.page>

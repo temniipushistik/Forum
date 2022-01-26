@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping("/textOfTopic/{idOfTopic}/comments")
 public class CommentController {
@@ -21,13 +19,15 @@ public class CommentController {
     @Autowired
     MessageRepository messageRepository;
 
-    @GetMapping
+   /* @GetMapping
     public String addComment(Model model, @PathVariable(value = "idOfTopic") long idOfTopic) {
         Message message = messageRepository.findMessageById(idOfTopic);
         Iterable<EntityComments> comments = commentsRepository.findEntityCommentsByCommentedPost(message);
                 model.addAttribute("comments", comments);
         return "comments";
-    }
+   }
+
+    */
 
 
     @PostMapping
@@ -38,8 +38,12 @@ public class CommentController {
         commentsRepository.save(comments);
         Iterable<EntityComments> commentsList = commentsRepository.findEntityCommentsByCommentedPost(message);
         model.addAttribute("comments", commentsList);
+        model.addAttribute("topic", message.getText());
+        model.addAttribute("currentUserId", user.getId());
+        model.addAttribute("authorId", message.getAuthor().getId());
         model.addAttribute("author", comments.getAuthorOfComment().getUsername());
-        return "comments";
+
+        return "redirect:/textOfTopic/{idOfTopic}";
 
     }
 }
