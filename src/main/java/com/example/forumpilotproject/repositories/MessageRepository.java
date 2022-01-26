@@ -13,5 +13,6 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
     Message findMessageById(Long id);
 
 
+
     //поиск по полю или идентификатору
 }
