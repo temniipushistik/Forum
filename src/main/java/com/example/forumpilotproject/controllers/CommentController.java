@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/textOfTopic/{idOfTopic}/comments")
+@RequestMapping("/textOfTopic/{idOfTopic}")
 public class CommentController {
     @Autowired
     CommentsRepository commentsRepository;
@@ -32,24 +32,35 @@ public class CommentController {
     */
 
 
-    @PostMapping
+    @PostMapping("/comments")
     public String addComment(@AuthenticationPrincipal EntityUser user,
                              @RequestParam String textOfComment, Model model, @PathVariable Long idOfTopic) {
 
         Message message = messageRepository.findMessageById(idOfTopic);
         EntityComments comments = new EntityComments(textOfComment, user);
-        // EntityComments comments = message.getEntityComments().add(new EntityComments(textOfComment,user));
-        EntityComments newComments = commentsRepository.save(comments);//выгружаю из БД и получает, что сохранилось
+
+        EntityComments newComments = commentsRepository.save(comments);//выгружаю из БД то, что тут же сохванил в БД и получаю, что сохранилось
         message.getEntityComments().add(newComments);//получаю список комментарии и добавляю сохраненный коммент
         messageRepository.save(message);
-       Iterable<EntityComments> commentsList = message.getEntityComments();
-      model.addAttribute("comments", commentsList);
+        Iterable<EntityComments> commentsList = message.getEntityComments();
+        model.addAttribute("comments", commentsList);
         model.addAttribute("topic", message.getText());
-       model.addAttribute("currentUserId", user.getId());
-       model.addAttribute("authorId", message.getAuthor().getId());
-       model.addAttribute("author", comments.getAuthorOfComment().getUsername());
+        model.addAttribute("currentUserId", user.getId());
+        model.addAttribute("authorId", message.getAuthor().getId());
+        model.addAttribute("author", comments.getAuthorOfComment().getUsername());
 
         return "redirect:/textOfTopic/{idOfTopic}";
 
+    }
+//два динамических значения!!! может быть косяк
+    @PostMapping("/removeComment/{comment.id}")
+    public String CommentDelete(@AuthenticationPrincipal EntityUser user,
+                                @PathVariable(value = "comment.id") long idOfComment,
+                                Model model) {
+
+        commentsRepository.deleteById(idOfComment);
+
+
+        return "redirect:/textOfTopic/{idOfTopic}";
     }
 }

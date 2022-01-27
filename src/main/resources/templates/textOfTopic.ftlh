@@ -26,8 +26,6 @@
 
                 <div><span> ${description}</span></div>
 
-                <div><span> ${authorId}</span></div>
-                <div><span> ${currentUserId}</span></div>
 
                 <div class="btn-group">
 
@@ -46,7 +44,6 @@
             <div class="card-footer text-muted">
                 Post has been published by ${author}
             </div>
-
 
 
         </div>
@@ -69,24 +66,34 @@
                 </form>
             </div>
         </div>
-         <#if comments??>
+        <#if comments??>
 
-        <#list comments as comment>
-            <div class="card my-3" style="width: 60rem;">
+            <#list comments as comment>
+                <div class="card my-3" style="width: 60rem;">
 
 
-                <div class="m-3">
-                    <span> ${comment.getTextOfComment()}</span>
+                    <div class="m-3">
+                        <span> ${comment.getTextOfComment()}</span>
+
+                        <#if (comment.authorOfComment.id==currentUserId)||user.isAdmin()>
+                                           <form method="post" action="/textOfTopic/${idOfTopic}/removeComment/${comment.id}">
+                                               <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                               <button class="btn btn-danger" type="submit">Delete</button>
+
+                                           </form>
+                                           </#if>
+
+
+                    </div>
+                    <div class="card-footer text-muted">
+                        Commented by ${comment.authorOfComment.username}
+                    </div>
                 </div>
-                <div class="card-footer text-muted">
-                    Commented by ${comment.authorOfComment.username}
-                </div>
-            </div>
 
 
-        </#list>
+            </#list>
 
-</#if>
+        </#if>
 
         </div>
 

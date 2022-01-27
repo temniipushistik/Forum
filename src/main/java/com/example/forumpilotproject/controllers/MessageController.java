@@ -95,9 +95,9 @@ public class MessageController {
     @PostMapping("/remove")
     public String ArticleDelete(@AuthenticationPrincipal EntityUser user, @PathVariable(value = "idOfTopic") long idOfTopic,
                                 Model model) {
-        Message message = new Message(user);
+        //  Message message = new Message(user);
         messageRepository.deleteById(idOfTopic);
-        model.addAttribute("authorId", message.getAuthor().getId());
+      //  model.addAttribute("authorId", message.getAuthor().getId());
 
         return "redirect:/main";
     }
