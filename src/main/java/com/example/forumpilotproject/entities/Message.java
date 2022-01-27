@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,16 +23,18 @@ public class Message {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)//указываем БД, что к куче собщеий бможнт бытьодин пользователь
-    @JoinColumn(name = "user_id")//делаем foreingkey    для юзера и указываем БД как назвать поле автор
+    @JoinColumn(name = "user_id")//делаем foreign key для юзера и указываем БД как назвать поле автор
     private EntityUser author;
 
-    //  @OneToMany(cascade = CascadeType.ALL)
-   // private List<EntityComments> entityComments;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "post_id")
+    private List<EntityComments> entityComments;
 
     public Message(String text, EntityUser user
     ) {
         this.text = text;
         this.author = user;
+        entityComments = new ArrayList<>();
 
     }
 

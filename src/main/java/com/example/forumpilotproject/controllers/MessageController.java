@@ -31,7 +31,7 @@ public class MessageController {
        // model.addAttribute("isAdmin",user.isAdmin());
         model.addAttribute("user",user);
         Message messageById = messageRepository.findMessageById(idOfTopic);
-        Iterable<EntityComments> comments = commentsRepository.findEntityCommentsByCommentedPost(messageById);
+        Iterable<EntityComments> comments = message.getEntityComments();
         model.addAttribute("comments", comments);
         if (message.getDescription() != null) {
             model.addAttribute("description", message.getDescription());
