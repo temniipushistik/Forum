@@ -42,7 +42,7 @@
 
             </div>
             <div class="card-footer text-muted">
-                Post has been published by ${author} at ${data}
+                Post has been published by ${author}
             </div>
 
 
@@ -78,11 +78,10 @@
                         <#if (comment.authorOfComment.id==currentUserId)||user.isAdmin()>
 
 
-                        <!--  <label>
+                            <label>
                                 <a href="/textOfTopic/${idOfTopic}/editComment/${comment.id}" class="btn btn-primary">
                                     edit</a>
                             </label>
-                            -->
 
 
                             <form method="post" action="/textOfTopic/${idOfTopic}/removeComment/${comment.id}">
@@ -97,7 +96,7 @@
 
                     </div>
                     <div class="card-footer text-muted">
-                        Commented by ${comment.authorOfComment.username} at ${comment.getDataOfComment()}
+                        Commented by ${comment.authorOfComment.username}
                     </div>
                 </div>
 

@@ -17,22 +17,18 @@ public class EntityComments {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String textOfComment;
+    private String dataOfComment;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private EntityUser authorOfComment;
 
- //   @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
-  // @JoinColumn(name = "post_id")
-  //   private Message commentedPost;
 
-    public EntityComments(String textOfComment, EntityUser user) {
+    public EntityComments(String textOfComment, EntityUser user, String dataOfComment) {
         this.textOfComment = textOfComment;
         this.authorOfComment = user;
-
-
+        this.dataOfComment = dataOfComment;
     }
-
 
 
 }

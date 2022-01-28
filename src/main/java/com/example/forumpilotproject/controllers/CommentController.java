@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/textOfTopic/{idOfTopic}")
@@ -21,29 +24,22 @@ public class CommentController {
     @Autowired
     MessageRepository messageRepository;
 
-   /* @GetMapping
-    public String addComment(Model model, @PathVariable(value = "idOfTopic") long idOfTopic) {
-        Message message = messageRepository.findMessageById(idOfTopic);
-        Iterable<EntityComments> comments = commentsRepository.findEntityCommentsByCommentedPost(message);
-                model.addAttribute("comments", comments);
-        return "comments";
-   }
-
-    */
-
-
+//dataOfComment
     @PostMapping("/comments")
     public String addComment(@AuthenticationPrincipal EntityUser user,
                              @RequestParam String textOfComment, Model model, @PathVariable Long idOfTopic) {
 
         Message message = messageRepository.findMessageById(idOfTopic);
-        EntityComments comments = new EntityComments(textOfComment, user);
-
+        String dataOfComment = (new Date()).toString();
+        EntityComments comments = new EntityComments(textOfComment, user,dataOfComment);
+        ;
+        //comments.setDataOfComment(dataOfComment);
         EntityComments newComments = commentsRepository.save(comments);//выгружаю из БД то, что тут же сохванил в БД и получаю, что сохранилось
         message.getEntityComments().add(newComments);//получаю список комментарии и добавляю сохраненный коммент
         messageRepository.save(message);
         Iterable<EntityComments> commentsList = message.getEntityComments();
         model.addAttribute("comments", commentsList);
+        model.addAttribute("dataOfComment", comments.getDataOfComment());
         model.addAttribute("topic", message.getText());
         model.addAttribute("currentUserId", user.getId());
         model.addAttribute("authorId", message.getAuthor().getId());
@@ -52,15 +48,30 @@ public class CommentController {
         return "redirect:/textOfTopic/{idOfTopic}";
 
     }
-//два динамических значения!!! может быть косяк
+
+
+    @PostMapping("/editComment/{comment.id}")
+    public String CommentEdit(@AuthenticationPrincipal EntityUser user, @RequestParam String textOfEditedComment, Model model,
+                              @PathVariable(value = "comment.id") Long idOfComment
+    ) {
+        EntityComments comment = commentsRepository.findCommentById(idOfComment);
+        comment.setTextOfComment(textOfEditedComment);
+        commentsRepository.save(comment);
+
+
+        return "redirect:/textOfTopic/{idOfTopic}";
+    }
+
     @PostMapping("/removeComment/{comment.id}")
-    public String CommentDelete(@AuthenticationPrincipal EntityUser user,
-                                @PathVariable(value = "comment.id") long idOfComment,
-                                Model model) {
+    public String CommentDelete(
+            @PathVariable(value = "comment.id") long idOfComment
+    ) {
 
         commentsRepository.deleteById(idOfComment);
 
 
         return "redirect:/textOfTopic/{idOfTopic}";
     }
+
+
 }

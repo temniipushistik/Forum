@@ -21,6 +21,7 @@ public class Message {
     private Long id;
     private String text;
     private String description;
+    private String date;
 
     @ManyToOne(fetch = FetchType.EAGER)//указываем БД, что к куче собщеий бможнт бытьодин пользователь
     @JoinColumn(name = "user_id")//делаем foreign key для юзера и указываем БД как назвать поле автор
