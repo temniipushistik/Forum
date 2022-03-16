@@ -35,8 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/registration","/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()//включаем форму логина
-                .loginPage("/login")//логин находится тут
+                .formLogin()//switch on login's form
+                .loginPage("/login")//set address for login's page
                 .permitAll()
                 .and()
                 .logout()
@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());//passwordEncoder - делает так, чтобы пароли не хранились в явном виде
+                .passwordEncoder(NoOpPasswordEncoder.getInstance());//passwordEncoder - method saves password in non-obvious data
 
     }
 }

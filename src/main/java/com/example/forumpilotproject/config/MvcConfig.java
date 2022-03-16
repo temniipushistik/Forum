@@ -10,7 +10,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     public void addViewControllers(ViewControllerRegistry registry) {
 
-        //используем логин и страницу для логина от спринга. это вью контроллер если что
+        //use login and page for login from spring. There is a view controller
         registry.addViewController("/login").setViewName("login");
     }
 

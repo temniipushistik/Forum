@@ -14,5 +14,4 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
 
 
 
-    //поиск по полю или идентификатору
 }

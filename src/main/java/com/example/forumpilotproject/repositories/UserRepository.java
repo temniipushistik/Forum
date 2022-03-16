@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<EntityUser, Long> {
     EntityUser findByUsername(String username);
-    //чтобы находить список юзеров
    List<EntityUser> findAll();
 
 

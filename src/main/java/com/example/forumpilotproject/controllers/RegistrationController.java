@@ -17,19 +17,17 @@ public class RegistrationController  {
     @GetMapping("/registration")
     public String registration() {
 
-        return "registration";//возвращаем страницу с регистрацией
+        return "registration";//
     }
 
     @PostMapping("/registration")
     public String addUser(EntityUser user,Map<String,Object> model) {
-//если сервис говорит, что в Бд есть уже этот пользователь - т.е. метод эдюзер возвращает фолс
+//if service response that BD already has the user the current method "addUser" return false
     if(!userService.addUser(user)){
         model.put("message","User exists!");
         return "registration";
     }
 
-
-//return "registration";
         return "redirect:/login";
 
     }

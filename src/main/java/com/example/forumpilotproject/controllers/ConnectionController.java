@@ -1,10 +1,8 @@
 package com.example.forumpilotproject.controllers;
-
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-//Checking connection between view and server via REST
+
+//Checking connection between view and server
 
     public class ConnectionController {
       	@GetMapping("/greeting")
@@ -14,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
         }
 
     }
-
-      //  public ResponseEntity<HttpStatus> check() {
-          //  return new ResponseEntity<>(HttpStatus.OK);
 
 
 

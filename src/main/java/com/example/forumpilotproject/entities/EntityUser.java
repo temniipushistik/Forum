@@ -27,14 +27,14 @@ public class EntityUser implements UserDetails {
     private boolean active;
     private String email;
     private String phoneNumber;
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)//сам создает таблицу с енамом,
-    // fetch = FetchType.EAGER - подгружает сразу роль
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)//crate a table with enum,
+    // fetch = FetchType.EAGER
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    //создаем таблицу для набора ролей,
-    // которая будет будет соединяться с таблицей пользователей
+    //create a table for a role's list
+    // the table connects to a user's table
     @Enumerated(EnumType.STRING)
 
-    private Set<Role> roles;//коллекция сет состоит из объектом енам Role, который лежит в этом же пакете
+    private Set<Role> roles;// SET collection includes enum Role which has been located in the same package
 
     public boolean isActive() {
         return active;

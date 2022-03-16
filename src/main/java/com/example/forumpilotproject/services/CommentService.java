@@ -17,13 +17,13 @@ public class CommentService {
 
     @Autowired
     CommentsRepository commentsRepository;
-
+    //prepare  method for code review
     public void addComments(Long idOfTopic, String textOfComment, EntityUser user) {
         Message message = messageRepository.findMessageById(idOfTopic);
         String dataOfComment = (new Date()).toString();
         EntityComments comments = new EntityComments(textOfComment, user, dataOfComment);
-        EntityComments newComments = commentsRepository.save(comments);//выгружаю из БД то, что тут же сохванил в БД и получаю, что сохранилось
-        message.getEntityComments().add(newComments);//получаю список комментарии и добавляю сохраненный коммент
+        EntityComments newComments = commentsRepository.save(comments);
+        message.getEntityComments().add(newComments);
         messageRepository.save(message);
         Iterable<EntityComments> commentsList = message.getEntityComments();
     }

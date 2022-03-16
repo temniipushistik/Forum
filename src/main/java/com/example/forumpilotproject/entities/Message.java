@@ -23,16 +23,15 @@ public class Message {
     private String description;
     private String date;
 
-    @ManyToOne(fetch = FetchType.EAGER)//указываем БД, что к куче собщеий бможнт бытьодин пользователь
-    @JoinColumn(name = "user_id")//делаем foreign key для юзера и указываем БД как назвать поле автор
+    @ManyToOne(fetch = FetchType.EAGER)//declare to BD that many post could be created by one user
+    @JoinColumn(name = "user_id")//create foreign key for the user and declare BD how to name the column
     private EntityUser author;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     private List<EntityComments> entityComments;
 
-    public Message(String text, EntityUser user
-    ) {
+    public Message(String text, EntityUser user) {
         this.text = text;
         this.author = user;
         entityComments = new ArrayList<>();

@@ -28,12 +28,8 @@ public class MainController {
     public String greeting(Map<String, Object> model){
         return "greeting";
 
-        //  public ResponseEntity<HttpStatus> check() {
-        //  return new ResponseEntity<>(HttpStatus.OK);
-
 
     }
-    //получаем все сообщения и возвращаем их в мейн
     @GetMapping("/main")
     public String main(Model model) {
         Iterable<Message> messages = messageRepository.findAll();
@@ -44,14 +40,13 @@ public class MainController {
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal EntityUser user,
                       @RequestParam String title, Map<String, Object> model) {
-        //сохраняем полученные сообщения
+        //save
         Message message = new Message(title,user);
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
 
-        //положили в репозиторий
         model.put("messages", messages);
-        //отдали пользователю
+        //sent to front
         return "main";
     }
 

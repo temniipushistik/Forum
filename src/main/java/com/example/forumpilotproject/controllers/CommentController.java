@@ -6,7 +6,6 @@ import com.example.forumpilotproject.entities.Message;
 import com.example.forumpilotproject.repositories.CommentsRepository;
 import com.example.forumpilotproject.repositories.MessageRepository;
 import com.example.forumpilotproject.services.CommentService;
-import com.example.forumpilotproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -32,13 +31,11 @@ public class CommentController {
     public String addComment(@AuthenticationPrincipal EntityUser user,
                              @RequestParam String textOfComment, Model model, @PathVariable Long idOfTopic) {
 
-        // commentService.addComments(idOfTopic,textOfComment,user);
         Message message = messageRepository.findMessageById(idOfTopic);
         String dataOfComment = (new Date()).toString();
         EntityComments comments = new EntityComments(textOfComment, user, dataOfComment);
-        EntityComments newComments = commentsRepository.save(comments);//выгружаю из БД то, что тут же сохванил в БД и получаю, что сохранилось
-        message.getEntityComments().add(newComments);//получаю список комментарии и добавляю сохраненный коммент
-        messageRepository.save(message);
+        EntityComments newComments = commentsRepository.save(comments);//save to BD and upload from BD
+        message.getEntityComments().add(newComments);//receive list of comments and put saved comments
         Iterable<EntityComments> commentsList = message.getEntityComments();
         model.addAttribute("comments", commentsList);
         model.addAttribute("dataOfComment", comments.getDataOfComment());
